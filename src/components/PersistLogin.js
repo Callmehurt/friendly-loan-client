@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useRefreshToken from '../hooks/userRefreshToken';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
+import LoadingComponent from './LoadingComponent';
 
 const PersistLogin = () => {
 
@@ -62,7 +63,7 @@ const PersistLogin = () => {
         <>
             {
                 isLoading ? (
-                    <h1>Loading component</h1>
+                    <LoadingComponent/>
                 ): <Outlet />
             }
         </>

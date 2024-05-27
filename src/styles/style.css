@@ -771,6 +771,7 @@ dt {
   letter-spacing: 1px;
   float: left;
   margin-right: 48px;
+  text-decoration: none;
 }
 
 #topnav .topbar-main .logo .logo-sm {
@@ -1159,6 +1160,7 @@ body {
   padding-left: 20px;
   padding-right: 20px;
   font-size: 14px;
+  text-decoration: none;
 }
 
 #topnav .navigation-menu > li > a:hover, #topnav .navigation-menu > li > a:focus, #topnav .navigation-menu > li > a:active {
