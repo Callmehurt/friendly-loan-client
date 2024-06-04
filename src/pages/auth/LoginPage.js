@@ -3,7 +3,7 @@ import { useState } from "react";
 import { axiosDefault } from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticateUser } from "../../redux/actions/authenticationActions";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { notifySuccess } from "../../toast.notification";
 import { ToastContainer } from "react-toastify";
 
@@ -12,7 +12,6 @@ const LoginPage = () => {
     const currentAuthState = useSelector((state) => state.authentication);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const location = useLocation();
 
 
     useEffect(() => {

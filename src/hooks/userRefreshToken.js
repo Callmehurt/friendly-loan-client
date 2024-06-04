@@ -11,6 +11,8 @@ const useRefreshToken = () => {
 
             const res = await axiosPrivate.get('/user/refresh-token');
             const {user, accessToken} = res?.data;
+
+            console.log(accessToken);
             dispatch(updateToken({user, accessToken}));
             return accessToken;
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faDashboard} from "@fortawesome/free-solid-svg-icons";
+import {faDashboard, faPeopleGroup} from "@fortawesome/free-solid-svg-icons";
 
 const StudentNavbar = ({currentAuthState, open}) => {
 
@@ -11,6 +11,9 @@ const StudentNavbar = ({currentAuthState, open}) => {
                 <ul className="navigation-menu">
                     <li className="has-submenu">
                         <Link to={`/${currentAuthState.user.role.toLowerCase()}/dashboard`}><FontAwesomeIcon icon={faDashboard} className={'mr-1'} /> Dashboard</Link>
+                    </li>
+                    <li className="has-submenu">
+                        <Link to={`/${currentAuthState.user.role.toLowerCase()}/groups`}><FontAwesomeIcon icon={faPeopleGroup} className={'mr-1'} /> Groups</Link>
                     </li>
                 </ul>
             </div>

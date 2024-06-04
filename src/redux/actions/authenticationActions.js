@@ -10,12 +10,12 @@ export const authenticateUser = ({user, token}) => {
     }
 }
 
-export const updateToken = ({user, token}) => {
+export const updateToken = ({user, accessToken}) => {
     return {
         type: AuthActionTypes.UPDATE_TOKEN,
         payload: {
             user,
-            token
+            accessToken
         }
     }
 }

@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
 import StudentLayout from './components/student/StudentLayout';
 import StudentDashboard from './components/student/StudentDashboard';
+import Group from './components/student/group/Group';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
             <Route element={<ProtectedRoute allowedRole={'student'}/>}>
               <Route element={<StudentLayout/>}>
                 <Route exact path={'/student/dashboard'} element={<StudentDashboard/>} />
+
+                {/* groups page */}
+                <Route exact path={'/student/groups'} element={<Group />} />
               </Route>
             </Route>
 

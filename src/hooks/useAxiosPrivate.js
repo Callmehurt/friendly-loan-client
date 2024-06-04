@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const useAxiosPrivate = () => {
 
-    const useRefresh = useRefreshToken();
+    const refreshToken = useRefreshToken();
 
     const accessToken = useSelector((state) => state.authentication.accessToken);
 
@@ -27,9 +27,16 @@ const useAxiosPrivate = () => {
                 const prevRequest = err?.config;
                 if(err?.response?.status === 403 && !prevRequest?.sent){
                     prevRequest.sent = true;
-                    const newAccessToken = await useRefresh();
-                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                    return axiosPrivate(prevRequest);
+                    try {
+
+                        const newAccessToken = await refreshToken();
+                        prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                        return axiosPrivate(prevRequest);
+                    } catch (error) {
+                        // Handle refresh token error (e.g., logout)
+                        console.error("Error refreshing token:", error);
+                        return Promise.reject(err);
+                    }
                 }
                 return Promise.reject(err);
             }
@@ -40,7 +47,7 @@ const useAxiosPrivate = () => {
             axiosPrivate.interceptors.response.eject(responseIntercept);
         }
 
-    }, [accessToken, useRefresh]);
+    }, [accessToken, refreshToken]);
 
     return axiosPrivate;
 }
