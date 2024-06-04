@@ -12,7 +12,7 @@ const useRefreshToken = () => {
             const res = await axiosPrivate.get('/user/refresh-token');
             const {user, accessToken} = res?.data;
 
-            console.log(accessToken);
+            //change authentication tate
             dispatch(updateToken({user, accessToken}));
             return accessToken;
 

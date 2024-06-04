@@ -15,7 +15,7 @@ export default function GroupCardSkeleton() {
               <span className="placeholder col-6"></span>
               <span className="placeholder col-8"></span>
             </p>
-            <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></a>
+            <a href="#" tabIndex="-1" className="btn btn-sm btn-primary disabled placeholder col-6"></a>
           </div>
         </div>
     )

@@ -11,6 +11,7 @@ import AdminLayout from './components/admin/AdminLayout';
 import StudentLayout from './components/student/StudentLayout';
 import StudentDashboard from './components/student/StudentDashboard';
 import Group from './components/student/group/Group';
+import SingleGroup from './components/student/group/SingleGroup';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
                 {/* groups page */}
                 <Route exact path={'/student/groups'} element={<Group />} />
+                <Route exact path={'/student/group/:groupId'} element={<SingleGroup />} />
               </Route>
             </Route>
 
