@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import { useFormik } from "formik";
 import { groupSchema } from "../../../validation-schema";
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { useDispatch } from "react-redux";
 import { notifyError, notifySuccess } from "../../../toast.notification";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 const GroupAddModal = ({setShow, show, currentAuthState}) => {
 
     const axiosPrivate = useAxiosPrivate();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
 

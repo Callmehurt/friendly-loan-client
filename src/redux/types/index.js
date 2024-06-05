@@ -6,4 +6,6 @@ export const AuthActionTypes = {
 
 export const GroupActionTypes = {
     FETCH_USER_GROUPS: 'FETCH_USER_GROUPS',
+    SET_CURRENT_GROUP: 'SET_CURRENT_GROUP',
+    SET_GROUP_MEMBERS: 'SET_GROUP_MEMBERS' 
 }

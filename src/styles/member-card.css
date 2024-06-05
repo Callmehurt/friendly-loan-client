@@ -1,0 +1,81 @@
+
+.member-container{
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.member-container .member-wrapper{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    height: 24rem;
+    border-radius: 7px 7px 7px 7px;
+    overflow: hidden;
+}
+
+.member-container .member-wrapper .image-wrapper{
+    background-image: url('../images/random-bg.png');
+    height: 35%;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+}
+
+.member-container .member-wrapper .image-wrapper .image-circle{
+    height: 150px;
+    width: 150px;
+    background-color: whitesmoke;
+    padding: 5px;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    bottom: -4.5rem;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.member-container .member-wrapper .info-wrapper{
+    height: 65%;
+    width: 100%;
+    padding-top: 5.6rem;
+    text-align: center;
+}
+
+.info-wrapper p{
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 7px;
+}
+.info-wrapper span{
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+
+/* Group info css */
+.add-member-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px; 
+    height: 30px; 
+    background-color: #007bff; 
+    border: none;
+    border-radius: 50%; 
+    cursor: pointer;
+}
+
+
+@media (min-width: 600px) {
+    .member-container { grid-template-columns: repeat(2, 1fr); }
+  }
+
+@media (min-width: 900px) {
+.member-container { 
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 15px; 
+}
+}

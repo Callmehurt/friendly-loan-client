@@ -17,7 +17,7 @@ const Group = () => {
     const groupList = useSelector((state) => state.group.userGroups);
     const currentAuthState = useSelector((state) => state.authentication);
 
-    const {isLoading, data, error, refetch} = useQuery({
+    const {isLoading, data, error} = useQuery({
         queryKey: ['userGroups'],
         queryFn: async () => {
             const res = await axiosPrivate.get('/user/group/user/enrolled');
@@ -29,11 +29,6 @@ const Group = () => {
 
     //for add modal
     const [show, setShow] = useState(false);
-
-
-    const handleRefetch = () => {
-        refetch();
-    }
 
     return (
         <>
