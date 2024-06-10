@@ -1,0 +1,44 @@
+.filter-wrapper{
+    height: 90px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    margin-bottom: 10px;
+}
+
+.filter-wrapper .profile-wrapper{
+    height: 100%;
+    width: 18%;
+    position: relative;
+}
+
+.filter-wrapper .profile-wrapper img{
+    height: 100%;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+}
+
+.filter-wrapper .info-wrapper{
+    height: 100%;
+    width: 64%;
+    text-align: right;
+    padding-right: 7px;
+}
+
+.filter-wrapper .action-wrapper{
+    height: 100%;
+    width: 18%;
+    position: relative;
+}
+
+.filter-wrapper .action-wrapper button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

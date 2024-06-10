@@ -3,11 +3,16 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useDebounce } from "use-debounce";
+import FilteredMember from "./FilteredMember";
+import { useSelector, useDispatch } from "react-redux";
+import { notifyError, notifySuccess } from "../../toast.notification";
+import { setGroupMembers } from "../../redux/actions/groupActions";
 
 
 const MemberSearchModal = ({show, setShow}) => {
 
     const axiosPrivate = useAxiosPrivate();
+    const group = useSelector((state) => state.group);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedSearchTerm] = useDebounce(searchTerm, 1000);
@@ -20,6 +25,26 @@ const MemberSearchModal = ({show, setShow}) => {
         },
         staleTime: 0,
     });
+
+    const dispatch = useDispatch();
+
+    const enrollMember = async (id) => {
+        try{
+
+            const res = await axiosPrivate.get(`/user/group/${group.currentGroup.id}/add/member/${id}`);
+            if(res.status === 200){
+                notifySuccess('Member added successfully');
+                const newMemberList = [...group.groupMembers, res.data];
+                dispatch(setGroupMembers(newMemberList));
+            }else{
+                notifyError('Something went wrong')
+            }
+
+        }catch(err){
+            console.log(err);
+            notifyError('Something went wrong')
+        }
+    }
 
     return (
         <>
@@ -46,13 +71,19 @@ const MemberSearchModal = ({show, setShow}) => {
                     </div>
                 </form>
 
+                <div style={{ maxHeight: '70vh'}}>
                 {
                     data ? (
                         data.map((user) => {
-                            return <h5>{user.fullname}</h5>
+                            return (
+                                <div key={user.id}>
+                                    <FilteredMember details={user} enrollMember={enrollMember}/>
+                                </div>
+                            )
                         })
                     ): ''
                 }
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <button className={'btn btn-sm btn-danger'} onClick={() => setShow(false)}>

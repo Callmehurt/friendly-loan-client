@@ -7,7 +7,7 @@ import '../../../styles/member-card.css'
 import MemberCard from "../../shared-components/MemberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCardClip, faTags, faUsersLine, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MemberSearchModal from "../../shared-components/MemberSearchModal";
 
 
@@ -36,6 +36,16 @@ const SingleGroup = () => {
     //for group member search modal
     const [show, setShow] = useState(false);
 
+
+
+    useEffect(() => {
+
+        const clearPage = () => {
+            dispatch(setCurrentGroup({}));
+            dispatch(setGroupMembers([]));        
+        }
+        return clearPage;
+    }, [dispatch])
 
     return (
         <>
@@ -82,6 +92,9 @@ const SingleGroup = () => {
                     </div>
                 </div>
                 <div className="card">
+                    <div className="card-header">
+                        <h5>Contributions</h5>
+                    </div>
                     <div className="card-body">
                         <div className="">
 
