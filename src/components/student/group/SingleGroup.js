@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCardClip, faTags, faUsersLine, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import MemberSearchModal from "../../shared-components/MemberSearchModal";
-
+import PaymentForm from "../../shared-components/Payment";
 
 const SingleGroup = () => {
 
@@ -97,7 +97,6 @@ const SingleGroup = () => {
                     </div>
                     <div className="card-body">
                         <div className="">
-
                         </div>
                     </div>
                 </div>
