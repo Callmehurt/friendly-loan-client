@@ -12,6 +12,7 @@ import StudentLayout from './components/student/StudentLayout';
 import StudentDashboard from './components/student/StudentDashboard';
 import Group from './components/student/group/Group';
 import SingleGroup from './components/student/group/SingleGroup';
+import PageNotFound from './components/PageNotFound';
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
 
 
           </Route>
+
+          <Route path={'*'} element={<PageNotFound/>} />
       </Route>
     </Routes>
   );

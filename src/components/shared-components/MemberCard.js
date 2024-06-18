@@ -9,7 +9,7 @@ const MemberCard = ({member}) => {
     const {id, uniqueIdentity, fullname, address, email, phone} = member;
 
     return (
-        <div className="member-wrapper" key={id}>
+        <div className="member-wrapper">
             <div className="image-wrapper">
                 <div className="image-circle">
                     <Image src={avatar} roundedCircle fluid={true} />

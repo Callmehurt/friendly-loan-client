@@ -2,14 +2,42 @@ import '../../styles/payment.css'
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useParams } from 'react-router-dom';
+import { notifyError, notifySuccess } from '../../toast.notification';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 
-export default function PaymentForm() {
+const PaymentForm = ({handleRefetech}) => {
+
+  const {groupId} = useParams();
+
   const stripe = useStripe();
   const elements = useElements();
+  const axiosPrivate = useAxiosPrivate();
 
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+
+  const registerContribution = async (paymentId, amount) => {
+    try{
+
+      const res = await axiosPrivate.post('/contribution/user/contribute', {
+        groupId: groupId,
+        amount: amount,
+        paymentId: paymentId
+      });
+
+      if(res?.status === 200){
+        handleRefetech();
+        notifySuccess(res.data.message);
+        document.getElementById('payment-form').style.display = 'none';
+      }
+    }catch(err){
+      console.log(err);
+      notifyError('Something went wrong while registering contribution');
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,10 +59,13 @@ export default function PaymentForm() {
       redirect: 'if_required'
     });
 
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error?.type === "card_error" || error?.type === "validation_error") {
       setMessage(error.message);
     } else if(paymentIntent && paymentIntent.status === 'succeeded'){
-        setMessage('Payment successful')
+        const paymentId = paymentIntent.id;
+        const amount = parseFloat(paymentIntent.amount)/100;
+        setMessage('Payment successful');
+        await registerContribution(paymentId, amount);
     }
     else {
       setMessage("An unexpected error occured.");
@@ -56,3 +87,5 @@ export default function PaymentForm() {
     </form>
   );
 }
+
+export default PaymentForm;
