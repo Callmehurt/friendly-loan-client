@@ -13,6 +13,7 @@ import StudentDashboard from './components/student/StudentDashboard';
 import Group from './components/student/group/Group';
 import SingleGroup from './components/student/group/SingleGroup';
 import PageNotFound from './components/PageNotFound';
+import LoanPage from './components/student/loan/Loan';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                 {/* groups page */}
                 <Route exact path={'/student/groups'} element={<Group />} />
                 <Route exact path={'/student/group/:groupId'} element={<SingleGroup />} />
+                <Route exact path={'/student/my/loans'} element={<LoanPage />} />
               </Route>
             </Route>
 

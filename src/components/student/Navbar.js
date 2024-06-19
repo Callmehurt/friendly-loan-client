@@ -16,7 +16,7 @@ const StudentNavbar = ({currentAuthState, open}) => {
                         <Link to={`/${currentAuthState.user.role.toLowerCase()}/groups`}><FontAwesomeIcon icon={faPeopleGroup} className={'mr-1'} /> Groups</Link>
                     </li>
                     <li className="has-submenu">
-                        <Link to={`/${currentAuthState.user.role.toLowerCase()}/loans`}><FontAwesomeIcon icon={faPiggyBank} className={'mr-1'} /> Loans</Link>
+                        <Link to={`/${currentAuthState.user.role.toLowerCase()}/my/loans`}><FontAwesomeIcon icon={faPiggyBank} className={'mr-1'} /> Loans</Link>
                     </li>
                 </ul>
             </div>

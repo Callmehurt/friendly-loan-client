@@ -5,3 +5,8 @@ export const groupSchema = Yup.object({
     description: Yup.string().required('Group description is required')
 });
 
+
+export const loanApplicationSchem = Yup.object({
+    groupId: Yup.string().required('Group selection is required'),
+    principalAmount: Yup.number().required('Principal amount is required')
+})
