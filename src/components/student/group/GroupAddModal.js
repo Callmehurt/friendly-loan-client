@@ -17,7 +17,7 @@ const GroupAddModal = ({setShow, show, currentAuthState}) => {
 
     const initialValues = {
         name: '',
-        description: ''
+        description: '',
     };
 
     const { values, errors, handleBlur, handleChange, handleSubmit, touched } = useFormik({
@@ -26,9 +26,26 @@ const GroupAddModal = ({setShow, show, currentAuthState}) => {
         validationSchema: groupSchema,
         onSubmit: async (values, action) => {
             try{
+                if(!file){
+                    setFileError('File is Required');
+                }                
 
+                console.log(file)
+                const formData = new FormData();
+                formData.append('thumbnail', file);
+                formData.append('name', values.name);
+                formData.append('description', values.description);
+
+                console.log(formData);
+                
+                                
+                
                 setIsLoading(true);
-                const res = await axiosPrivate.post('/user/group/create', values);
+                const res = await axiosPrivate.post('/user/group/create', formData, {
+                    headers: {
+                              'content-type': 'multipart/form-data'
+                          }
+                });
                 if(res.status === 200){
                     notifySuccess('Group created successfully');
                     navigate(`/${currentAuthState.user.role.toLowerCase()}/group/${res.data.newGroup.id}`);
@@ -46,6 +63,9 @@ const GroupAddModal = ({setShow, show, currentAuthState}) => {
         }
     });
 
+    const [file, setFile] = useState({})
+    const [fileError, setFileError] = useState('');
+
 
     return (
         <>
@@ -58,6 +78,32 @@ const GroupAddModal = ({setShow, show, currentAuthState}) => {
                 </Modal.Header>
                 <Modal.Body>
                     <form>
+                        <div className="form-group">
+                            <label>Group Logo</label>
+                            <input type="file"
+                                className="form-control-file"
+                                placeholder=""
+                                autoComplete={'off'}
+                                onChange={(event) => {
+                                    setFileError('')
+                                    setFile(event.currentTarget.files[0]);
+                                  }}
+                                onBlur={handleBlur}
+                                accept="image/*"
+                            />
+                            {
+                                fileError ? (
+                                    <ul className="parsley-errors-list filled">
+                                        <li>{fileError}</li>
+                                    </ul>
+                                ): null
+                            }
+                            {/* {preview && (
+                            <div className="image-preview">
+                                <img src={preview} alt="Group Logo Preview" style={{ width: '100px', height: '100px', marginTop: '10px' }} />
+                            </div>
+                        )} */}
+                        </div>
                         <div className="form-group">
                             <label>Group Name</label>
                             <input type="text"

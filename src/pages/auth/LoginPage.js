@@ -6,6 +6,7 @@ import { authenticateUser } from "../../redux/actions/authenticationActions";
 import { useNavigate, Link } from "react-router-dom";
 import { notifySuccess } from "../../toast.notification";
 import { ToastContainer } from "react-toastify";
+import logo from '../../images/logo-blue.png'
 
 const LoginPage = () => {
 
@@ -55,15 +56,16 @@ const LoginPage = () => {
     return (
         <>
             <ToastContainer/>
-            <div className="wrapper-page">
+            <div className="login_page_wrapper">
+            <div className="login_box">
                 <div className="card card-pages shadow-none">
                     <div className="card-body">
                         <div className="text-center m-t-0 m-b-15">
                             <Link to={'/'} className="logo logo-admin">
-                                <img src={''} alt="" height="130" style={{borderRadius: '50%'}} />
+                                <img src={logo} height="40" alt="" />
                             </Link>
                         </div>
-                        <h5 className="font-18 text-center">Sign in</h5>
+                        <h5 className="font-18 text-center mt-4">Sign in</h5>
 
                         <form className="form-horizontal m-t-30" onSubmit={handleSubmit}>
 
@@ -111,13 +113,15 @@ const LoginPage = () => {
                             </div>
                             <div className="form-group row m-t-30 m-b-0">
                                 <div className="col-sm-7">
-                                    <Link to={'/'} className="text-muted"><i
-                                        className="mdi mdi-lock m-r-5"></i> Forgot your password?</Link>
+                                    <Link to={'/'} className="text-muted text-decoration-none">
+                                    <i className="mdi mdi-lock m-r-5"></i> Forgot your password?</Link>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
+            </div>
+
             </div>
         </>
     )

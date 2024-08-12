@@ -7,12 +7,16 @@ import '../../../styles/member-card.css'
 import MemberCard from "../../shared-components/MemberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdCardClip, faTags, faUsersLine, faUserPlus, faSterlingSign } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MemberSearchModal from "../../shared-components/MemberSearchModal";
 import Payment from '../../shared-components/Payment';
 import CountUp from 'react-countup';
 import Fuse from "fuse.js";
 import moment from "moment";
+
+import hero1 from '../../../images/hero1.png'
+import hero2 from '../../../images/hero2.png'
+import hero3 from '../../../images/hero3.png'
 
 const SingleGroup = () => {
 
@@ -26,6 +30,8 @@ const SingleGroup = () => {
 
     const groupStates = useSelector((state) => state.group);
 
+    // document.title = "Friendly Loan || " + groupStates?.currentGroup?.name.toString()
+
     //axios private
     const axiosPrivate = useAxiosPrivate();
 
@@ -34,13 +40,12 @@ const SingleGroup = () => {
         queryFn: async () => {
             const res = await axiosPrivate.get(`/user/group/${groupId}/members`);
             const list = await res.data;  
-            document.title = "Friendly Loan || " + list.group.name.toString()  
             dispatch(setCurrentGroup(list.group));
             dispatch(setGroupMembers(list.members));  
-            console.log('jkhk');      
             return list;
         }
     });
+
 
     const {data: currentMonthContribution, refetch: currentContributionRefetech} = useQuery({
         queryKey: ['currentContribution'],
@@ -99,17 +104,17 @@ const SingleGroup = () => {
     const returnContributorList = (contributors) => {
         return contributors.map((cntrb) => {
             return (
-                <li key={cntrb.user.id}
-                    class="list-group-item d-flex justify-content-between border-bottom border-zinc-200 dark:border-zinc-700 py-2"
-                >
-                    <div class="d-flex align-items-center">
-                    <div class="bg-zinc-200 dark:bg-zinc-700 w-8 h-8 rounded-circle overflow-hidden">
-                        <img src="https://placehold.co/50" alt="Avatar" />
+                <div className="sm_contributor_info_li" key={cntrb.user.id}>
+                    <div className="sm_contributor_info">
+                        <div className="avatar_wrapper">
+                            <img src={cntrb.user.profile} alt="" />
+                        </div>
+                        <div className="con_info">
+                            <p>{cntrb.user.fullname}</p>
+                            <p><CountUp start={0} end={cntrb.totalAmount} decimals={2} prefix="£ "/></p>
+                        </div>
                     </div>
-                    <span class="ms-2"><strong>{cntrb.user.fullname}</strong></span>
-                    </div>
-                    <span><strong><CountUp start={0} end={cntrb.totalAmount} decimals={2} prefix="£ "/></strong></span>
-                </li>
+                </div>
             )
         })
     }
@@ -140,57 +145,101 @@ const SingleGroup = () => {
             </div>
         </div>
         <div className="row">
-            <div className="col-lg-8">
-                <div className="row">
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-heading p-4">
-                                <div className="mini-stat-icon float-right">
-                                    <i className="mdi mdi-account-multiple bg-primary text-white"></i>
-                                </div>
-                                <div>
-                                    <h5 className="font-16">Active Members</h5>
-                                </div>
-                                <h3 className="mt-4"><CountUp start={0} end={groupStates?.groupMembers.length} decimals={0}/></h3>
+           <div className="col-lg-4">
+            <div className="card">
+                <div className="card-body">
+                    <div className="single_group_section">
+                        <div className="top_section">
+                            <div className="group_logo_holder">
+                                <img src={groupStates?.currentGroup?.thumbnail} className="rounded-circle" alt="group logo" />
+                            </div>
+                            <div className="info_holder">
+                                <h6>{groupStates?.currentGroup?.id}</h6>
+                                <h5>{groupStates?.currentGroup?.name}</h5>
+                                <button onClick={() => setShow(true)}>Add Member</button>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-heading p-4">
-                                <div className="mini-stat-icon float-right">
-                                    <i className="mdi mdi-currency-gbp bg-info text-white"></i>
-                                </div>
-                                <div>
-                                    <h5 className="font-16">Contribution Amount</h5>
-                                </div>
-                                <h3 className="mt-4"><CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></h3>
-                            </div>
+                        <div className="group_desc">
+                            <p>{groupStates?.currentGroup?.description}</p>
                         </div>
                     </div>
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-heading p-4">
-                                <div className="mini-stat-icon float-right">
-                                    <i className="mdi mdi-cash-multiple bg-success text-white"></i>
+                </div>
+            </div>
+            <div className="card">
+                <div className="card-body">
+                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '10px' }}>Contributions</h6>
+                    <div className="p-2">
+                    <input type="search"
+                               className={'form-control form-control-sm'}
+                               placeholder={'Search..'}
+                               value={search}
+                               onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+                    <div class="bg-white p-2">
+                    <ul class="list-group">
+                        {
+                            searchResult.length > 0 ? (
+                            returnContributorList(searchResult)
+                            ): <span className="text-danger">No Contributions made yet !</span>
+                        }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+           </div>
+           <div className="col-lg-8">
+            <div className="row">
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="card_wrapper d-flex justify-content-between">
+                                <div className="card_info">
+                                    <p><CountUp start={0} end={groupStates?.groupMembers.length} decimals={0}/></p>
+                                    <p>Active Members</p>
                                 </div>
-                                <div>
-                                    <h5 className="font-16">Interest Collected</h5>
+                                <div className="card_icon">
+                                    <img src={hero1} alt="icon" />
                                 </div>
-                                <h3 className="mt-4"><CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></h3>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div className="row">
-                    <div className="col-6">
-
-                        <div className="card">
-                            <div className="card-header">
-                                <h6>Contribution this Month</h6>
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="card_wrapper d-flex justify-content-between">
+                                <div className="card_info">
+                                    <p><CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></p>
+                                    <p>Contributions</p>
+                                </div>
+                                <div className="card_icon">
+                                    <img src={hero2} alt="icon" />
+                                </div>
                             </div>
-                            <div className="card-body">
+                        </div>
+                    </div>
+                </div>
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="card_wrapper d-flex justify-content-between">
+                                <div className="card_info">
+                                    <p><CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></p>
+                                    <p>Interests</p>
+                                </div>
+                                <div className="card_icon">
+                                    <img src={hero3} alt="icon" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contribution</h6>
+                            <div className="student_contribution">
                                 {
                                     currentMonthContribution ? (
                                         <div className="p-2 m-2">
@@ -205,81 +254,18 @@ const SingleGroup = () => {
                                 }
                             </div>
                         </div>
-
                     </div>
-                    <div className="col-6">
-                        <div className="card">
-                            <div className="card-header">
-                                <h6>Loan Information</h6>
-                            </div>
-                            <div className="card-body">
-                                
-                            </div>
+                </div>
+                <div className="col-6">
+                    <div className="card">
+                        <div className="card-body">
+                        <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Loan Information</h6>
+
                         </div>
                     </div>
                 </div>
-
-                <div className="member-container">
-                    {
-                        Object.keys(groupStates?.groupMembers).length < 1 ? (
-                            <>
-                                <h1>No Group Members</h1>
-                            </>
-                        ):(
-                            groupStates?.groupMembers.map((member) => {
-                                return (
-                                    <div key={member.id}>
-                                        <MemberCard member={member?.user}/>
-                                    </div>
-                                ) 
-                            })
-                        )
-                    }
-                </div>
             </div>
-            <div className="col-lg-4">
-                <div className="card">
-                    <div className="card-body">
-                        <div className="group-info">
-                            <button className="btn btn-primary d-flex align-items-center float-right" title="Add New Member" onClick={() => setShow(true)}>
-                            <FontAwesomeIcon icon={faUserPlus} className={'mr-1'} />
-                            </button>
-                            <h6><FontAwesomeIcon icon={faTags} className={'mr-1'} /> Group ID: {groupStates?.currentGroup?.id}</h6>
-                            <h6><FontAwesomeIcon icon={faIdCardClip} className={'mr-1'} />Name: {groupStates?.currentGroup?.name}</h6>
-                            {/* <h6><FontAwesomeIcon icon={faUsersLine} className={'mr-1'} />Members: {groupStates?.groupMembers.length}</h6>
-                            <h6><FontAwesomeIcon icon={faSterlingSign} className={'mr-1'} />Total Contributions: <CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></h6> */}
-                            <h6>{groupStates?.currentGroup?.description}</h6>
-                        </div>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="card-header">
-                        <h6>Contributions</h6>
-                    </div>
-                    <div className="card-body">
-                    <input type="search"
-                               className={'form-control form-control-sm'}
-                               placeholder={'Search..'}
-                               value={search}
-                               onChange={(e) => setSearch(e.target.value)}
-                        />
-                    <div class="bg-white dark:bg-zinc-800 shadow-lg rounded p-4">
-                    <ul class="list-group">
-                        {
-                            searchResult.length > 0 ? (
-                            returnContributorList(searchResult)
-                            ): <span className="text-danger">No Contributions made yet !</span>
-                        }
-                        {/* {
-                            groupStates.currentGroup && groupStates.currentGroup.contributions?.length > 0  ? (
-                                returnContributorList(calculateTotalAmountPerUser(groupStates.currentGroup.contributions))
-                            ): <span className="text-danger">No Contributions made yet !</span>
-                        } */}
-                        </ul>
-                    </div>
-                    </div>
-                </div>
-            </div>
+           </div>
         </div>
         </>
     )

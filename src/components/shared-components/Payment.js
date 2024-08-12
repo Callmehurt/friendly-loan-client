@@ -35,17 +35,19 @@ const Payment = ({refetch}) => {
 
   return (
     <>
-      <h6>You do not have contribution for this month!</h6>
-      <form onSubmit={handlePay}>
-        <label>Desirable Amount</label>
-        <input className="form-control" value={payingAmount} onChange={(e) => setPayingAmount(e.target.value)} />
-        <button className="btn btn-sm btn-primary" type="submit">Pay this Amount</button>
-      </form>
-      {clientSecret && stripePromise && (
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <PaymentForm handleRefetech={handleRefetech} />
-        </Elements>
-      )}
+      <div>
+        <h6>You do not have contribution for this month!</h6>
+        <form onSubmit={handlePay} style={{ marginTop: '20px' }}>
+          <label>Desirable Amount</label>
+          <input className="form-control" value={payingAmount} onChange={(e) => setPayingAmount(e.target.value)} />
+          <button className="pay_button" type="submit">Pay</button>
+        </form>
+        {clientSecret && stripePromise && (
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <PaymentForm handleRefetech={handleRefetech} />
+          </Elements>
+        )}
+      </div>
     </>
   );
 }

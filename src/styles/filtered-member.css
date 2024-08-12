@@ -1,19 +1,17 @@
 .filter-wrapper{
-    height: 90px;
+    height: 55px;
     width: 100%;
     position: relative;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    padding: 5px;
     border-radius: 5px;
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
     margin-bottom: 10px;
 }
 
 .filter-wrapper .profile-wrapper{
     height: 100%;
-    width: 18%;
+    width: 12%;
     position: relative;
 }
 
@@ -22,23 +20,65 @@
     position: absolute;
     margin: 0 auto;
     left: 0;
+    object-fit: cover;
+    object-position: center;
 }
 
 .filter-wrapper .info-wrapper{
     height: 100%;
-    width: 64%;
-    text-align: right;
-    padding-right: 7px;
+    width: 68%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .filter-wrapper .action-wrapper{
     height: 100%;
-    width: 18%;
+    width: 20%;
     position: relative;
 }
+
 
 .filter-wrapper .action-wrapper button{
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: 10px;
+    font-size: 15px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    line-height: 0;
+    height: 29px;
+    width: 80px;
+    font-weight: 400;
+    border-radius: 14px;
+}
+
+.filter-wrapper .info-wrapper p{
+    font-size: 14px;
+    color: black;
+    margin: 0;
+    line-height: 1.5 !important;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.enroll_success, .enroll_process {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
+    padding: 10px 20px; /* Adjust padding as needed */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.enroll_success {
+    background-color: rgb(38, 194, 38);
+    color: white;
+}
+
+.enroll_process {
+    background-color: #5B6AF1;
+    color: white;
 }

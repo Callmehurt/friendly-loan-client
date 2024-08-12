@@ -1,4 +1,4 @@
-import logo from '../images/logo.jpg'
+import logo from '../images/logo-blue.png'
 
 const LoadingComponent = () => {
     return (
@@ -8,7 +8,7 @@ const LoadingComponent = () => {
                     <div className="preloader-circle" style={{display: 'grid', placeItems: 'center'}}>
                     </div>
                     <div className="preloader-img pere-text" style={{borderRadius: '50%', overflow: 'hidden', height: '50px', width: '50px'}}>
-                        <img src={logo} alt="logo" height='45' className="rounded-circle" />
+                        <img src={logo} alt="logo" height='40' className="rounded-circle" />
                     </div>
                 </div>
             </div>

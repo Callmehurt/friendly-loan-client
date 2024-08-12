@@ -1,5 +1,6 @@
 import './App.css';
 import './styles/style.css';
+import './styles/custom-css.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Routes, Route } from 'react-router-dom';

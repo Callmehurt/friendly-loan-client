@@ -86,7 +86,7 @@ const MemberSearchModal = ({show, setShow}) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button className={'btn btn-sm btn-danger'} onClick={() => setShow(false)}>
+                <button className={'btn btn-sm btn-danger'} onClick={() => setShow(false)} style={{ fontSize: '14px' }}>
                     Cancel
                 </button>
             </Modal.Footer>

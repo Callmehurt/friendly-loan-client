@@ -1,25 +1,38 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"; 
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons"; 
 import { Link } from "react-router-dom";
-import gradient from '@privjs/gradients'
 
 const GroupCard = ({group, currentAuthState}) => {
 
-    const {id, name, description} = group;
+    const {id, name, description, thumbnail} = group;
 
-    const gradientStyle = {
-        backgroundImage: gradient({description}),
-        color: 'white'
-    }
-    
+
     return (
         <>
-            <div className="card m-b-30" style={gradientStyle}>
-                <div className="card-body">
-                    <h4 className="card-title font-16 mt-0">{name}</h4>
-                    <p className="card-text">{description}</p>
-                    <Link to={`/${currentAuthState.user.role.toLowerCase()}/group/${id}`} className="btn btn-sm btn-primary waves-effect waves-light"><FontAwesomeIcon icon={faCircleInfo} className={'mr-1'} /> View Group</Link>
+            <div className="card m-b-30">
+                <div className="card-body" style={{ padding: '0' }}>
+                    <div className="group_detail_wrapper">
+                        <div className="group_logo_holder">
+                            <img src={thumbnail} className="rounded-circle" alt="group logo" />
+                        </div>
+                        <div className="group_detail_holder">
+                            <h6>{id}</h6>
+                            <h5>{name}</h5>
+                            <p>{description}</p>
+
+                            <div className="view-detail-wrapper">
+                                <Link to={`/${currentAuthState.user.role.toLowerCase()}/group/${id}`}>
+                                    <span className="view-detail-text">View Detail</span>
+                                </Link>
+                                <Link to={`/${currentAuthState.user.role.toLowerCase()}/group/${id}`}>
+                                    <button className="circular-button">
+                                        <FontAwesomeIcon icon={faArrowRight} size="xl" />
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
