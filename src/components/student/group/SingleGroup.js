@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentGroup, setGroupMembers } from "../../../redux/actions/groupActions";
 import '../../../styles/member-card.css'
 import MemberCard from "../../shared-components/MemberCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faIdCardClip, faTags, faUsersLine, faUserPlus, faSterlingSign } from "@fortawesome/free-solid-svg-icons";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MemberSearchModal from "../../shared-components/MemberSearchModal";
 import Payment from '../../shared-components/Payment';
 import CountUp from 'react-countup';
@@ -262,6 +260,26 @@ const SingleGroup = () => {
                         <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Loan Information</h6>
 
                         </div>
+                    </div>
+                </div>
+                <div className="col-12">
+                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px', marginBottom: '15px' }}>Group Members</h6>
+                    <div className="member_list_section">
+                    {
+                        Object.keys(groupStates?.groupMembers).length < 1 ? (
+                            <>
+                                <h1>No Group Members</h1>
+                            </>
+                        ):(
+                            groupStates?.groupMembers.map((member) => {
+                                return (
+                                    <div key={member.id}>
+                                        <MemberCard member={member?.user}/>
+                                    </div>
+                                ) 
+                            })
+                        )
+                    }
                     </div>
                 </div>
             </div>

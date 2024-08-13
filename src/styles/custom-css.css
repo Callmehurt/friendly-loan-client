@@ -371,3 +371,163 @@
 .sm_contributor_info .con_info p:nth-child(2){
     font-weight: 600;
 }
+
+.member_list_section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    padding: 10px;
+}
+
+.member_list_section .m_child {
+    height: 70px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.member_list_section .m_child .user_av{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+}
+
+.member_list_section .m_child .user_av img{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.member_list_section .m_child .name_tag{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.member_list_section .m_child .name_tag p{
+    line-height: 1.2;
+    margin: 0;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+
+/* loan page css */
+.loan_detail_section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 13rem;
+}
+
+.loan_detail_section .l_child{
+    height: 100%;
+    width: calc(100%/2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    place-items: center;
+}
+
+.loan_detail_section .l_child .divider{
+    height: 8rem;
+    width: 1.5px;
+    background-color: black;
+    position: absolute;
+    right: 0;
+}
+
+.loan_detail_section .l_child p{
+    line-height: 2;
+    margin: 0;
+}
+
+.loan_detail_section .l_child p:nth-child(1){
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.loan_detail_section .l_child p:nth-child(2){
+    font-size: 18px;
+    font-weight: 700;
+    color: #114185;
+}
+
+.loan_detail_section .l_child p:nth-child(2) > span {
+    font-size: 12px !important;
+}
+
+.submit_button{
+    background-color: #5B6AF1;
+    text-align: center;
+    line-height: 0;
+    height: 29px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+/* profile page css */
+
+.profile_wrapper{
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.profile_wrapper .f_child{
+    width: 20%;
+    height: 100%;
+    /* background-color: yellow; */
+    position: relative;
+}
+
+.profile_wrapper .s_child{
+    width: 80%;
+    height: 100%;
+    /* background-color: green; */
+    position: relative;
+}
+
+.profile_wrapper .profile_pic_wrapper{
+    height: 16rem;
+    width: 16rem;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    padding: 8px;
+}
+
+.profile_wrapper .profile_pic_wrapper img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile_wrapper .s_child .user_info{
+    background-color: #5B6AF1;
+    height: auto;
+    width: 50%;
+}
+
+.profile_wrapper .s_child .user_info .role_badge{
+    height: 25px;
+    width: 80px;
+    border: 1.8px solid #D2ADAD;
+    background-color: #FDF0E8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}

@@ -97,8 +97,10 @@ const Header = () => {
                                                     className="rounded-circle" style={{ objectFit: 'cover', objectPosition: 'center' }} />
                                             </a>
                                             <div className="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                                <a className="dropdown-item" href="#"><i
-                                                    className="mdi mdi-account-circle"></i> {currentAuthState.user.fullname}</a>
+                                            <Link to={`/${currentAuthState.user.role.toLowerCase()}/my/profile`} className="dropdown-item">
+                                                <i className="mdi mdi-account-circle"></i> {currentAuthState.user.fullname}
+                                            </Link>
+                                                {/* <a className="dropdown-item" href="#"></a> */}
                                                 <div className="dropdown-divider"></div>
                                                 <a className="dropdown-item text-danger" href="#" onClick={signOut}><i
                                                     className="mdi mdi-power text-danger"></i> Logout</a>

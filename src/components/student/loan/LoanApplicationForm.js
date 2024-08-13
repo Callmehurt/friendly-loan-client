@@ -4,14 +4,15 @@ import { loanApplicationSchem } from "../../../validation-schema";
 import { useFormik } from "formik";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
+import GuarantorModal from "./GuarantorModal";
 
-const LoanApplicationForm = () => {
+const LoanApplicationForm = ({onLoanRequestSuccess}) => {
 
     const axiosPrivate = useAxiosPrivate();
 
     const [isLoading, setIsLoading] = useState(false);
-
     const [userGroups, setUserGroups] = useState([]);
+    const [groupMembers, setGroupMembers] = useState([]);
 
     //fetch user enrolled groups
     useQuery({
@@ -24,10 +25,14 @@ const LoanApplicationForm = () => {
         }
     })
 
+    //guarantors
+    const [guarantorIds, setGuarantorIds] = useState([]);
+
     const initialValues = {
         principalAmount: 0,
-        groupId: ''
+        groupId: '',
     }
+
 
     const { values, errors, handleBlur, handleChange, handleSubmit, touched } = useFormik({
         initialValues: initialValues,
@@ -40,27 +45,89 @@ const LoanApplicationForm = () => {
 
                 const res = await axiosPrivate.post('/loan/user/request/loan', {
                     groupId: values.groupId,
-                    principalAmount: values.principalAmount
+                    principalAmount: values.principalAmount,
+                    guarantorIds: guarantorIds
                 });
 
                 if(res.status === 200){
                     notifySuccess(res.data.message);
                     action.resetForm()
+                    onLoanRequestSuccess();
+                    setInterest(0);
                 }
                 setIsLoading(false);
-                console.log(res);
 
             }catch(err){
                 console.log(err);
                 setIsLoading(false);
                 notifyError(err.response.data.message);
+                if(err.response.status == 705){
+                    fetchGroupMembers(values.groupId);
+                    setShow(true);
+                }
             }
         }
     });
 
+    //fetch group members
+    const fetchGroupMembers = async (groupId) => {
+        try{
+
+            const res = await axiosPrivate.get(`/user/group/${groupId}/members`);
+            console.log(res.data.members);
+            
+            setGroupMembers(res.data.members)
+
+        }catch(err){
+            console.log('failed to fetch group members', err);
+            
+        }
+    }
+
+    //interest rate
+    const [interest, setInterest] = useState(0);
+
+    const fetchInterest = async (amount) => {
+        try{
+
+            const res = await axiosPrivate.post('/loan/fetch/interest/rate', {
+                principalAmount: amount || 0
+            });
+
+            if(res.data){
+                setInterest(res.data);
+            }else{
+                setInterest(0);
+            }
+
+            console.log(res);
+        }catch(err){
+            console.log('error fetching interest', err);
+            
+        }
+    }
+
+    const handleCombinedChange = (event) => {
+        handleChange(event);
+        fetchInterest(event.target.value);
+    };
+
+    //for group member search modal
+    const [show, setShow] = useState(false);
+
+    const updateGuarantor = (id) => {
+        setGuarantorIds(prevGuarantors => {
+            if (prevGuarantors.includes(id)) {
+                return prevGuarantors.filter(guarantorId => guarantorId !== id);
+            } else {
+                return [...prevGuarantors, id];
+            }
+        });        
+    }
 
     return (
         <>
+        <GuarantorModal show={show} setShow={setShow} groupMembers={groupMembers} guarantors={guarantorIds} updateGuarantor={updateGuarantor}/>
         <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <label>Group</label>
@@ -103,7 +170,7 @@ const LoanApplicationForm = () => {
                     autoComplete={'off'}
                     name={'principalAmount'}
                     value={values.principalAmount}
-                    onChange={handleChange}
+                    onChange={handleCombinedChange}
                     onBlur={handleBlur}
                 />
                 {
@@ -114,9 +181,18 @@ const LoanApplicationForm = () => {
                     ): null
                 }
             </div>
+            <div className="form-group">
+                <label>Interest Amount</label>
+                <input type="text"
+                    className="form-control"
+                    placeholder={interest}
+                    autoComplete={'off'}
+                    disabled
+                />
+            </div>
             {
-                isLoading ? <button className="btn btn-primary" type="button">Processing..</button>
-                : <button className="btn btn-primary" type="submit">Proceed Request</button>
+                isLoading ? <button className="submit_button" type="button">Processing..</button>
+                : <button className="submit_button" type="submit">Proceed Request</button>
             }
         </form>
         </>
