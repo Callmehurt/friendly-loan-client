@@ -11,6 +11,10 @@ const LoanPage = () => {
 
     const [loanHistory, setLoanHistory] = useState([]);
     const [guarantorRequests, setGuarantorRequests] = useState([]);
+    const [loanInterest, setLoanInterest] = useState({
+        totalLoanAmount: 0,
+        totalInterestAmount: 0
+    })
 
     const fetchLoanData = useCallback( async () => {
         try{
@@ -34,10 +38,24 @@ const LoanPage = () => {
         }
     }, []);
 
+    const fetchTotalLoanAndInterest = useCallback( async () => {
+        try{
+
+            const response = await axiosPrivate.get('/loan/my/all/total/loans');
+            setLoanInterest(response.data);
+        }catch(err){
+            console.log('Error fetching loan data', err);
+        }
+    }, []);
+
     useEffect(() => {
         fetchLoanData();
         fetchLoanGuarantorData();
     }, [fetchLoanData, fetchLoanGuarantorData])
+
+    useEffect(() => {
+        fetchTotalLoanAndInterest();
+    }, [])
     
 
     return (
@@ -67,12 +85,12 @@ const LoanPage = () => {
                         <div className="loan_detail_section">
                             <div className="l_child">
                                 <p>Total Loan Balance</p>
-                                <p><span>GBP(£)</span> <CountUp start={0} end={50000} decimals={2} /></p>
+                                <p><span>GBP(£)</span> <CountUp start={0} end={loanInterest.totalLoanAmount} decimals={2} /></p>
                                 <div className="divider"></div>
                             </div>
                             <div className="l_child">
                                 <p>Total Interest Paid</p>
-                                <p><span>GBP(£)</span> <CountUp start={0} end={1000} decimals={2} /></p>
+                                <p><span>GBP(£)</span> <CountUp start={0} end={loanInterest.totalInterestAmount} decimals={2} /></p>
                             </div>
                         </div>
                     </div>

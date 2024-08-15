@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import Fuse from 'fuse.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const LoanHistory = ({loanHistory}) => {
     
@@ -46,7 +47,7 @@ const LoanHistory = ({loanHistory}) => {
         {
             name: 'Start/End Date',
             cell: row => (
-                row.status == 'active' ? row.loanEndDate : row.loanStartDate
+                row.status === 'active' ? row.loanEndDate : row.loanStartDate
             ),
             sortable: true,
         },
@@ -60,7 +61,7 @@ const LoanHistory = ({loanHistory}) => {
         {
             name: 'Action',
             cell: row => (
-                <button className='submit_button'>View</button>
+                <Link to={`/student/loan/${row.reference}`}><button className='submit_button'>View</button></Link>
             ),
             sortable: true,
         },

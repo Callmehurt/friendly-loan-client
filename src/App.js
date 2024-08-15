@@ -15,6 +15,7 @@ import Group from './components/student/group/Group';
 import SingleGroup from './components/student/group/SingleGroup';
 import PageNotFound from './components/PageNotFound';
 import LoanPage from './components/student/loan/Loan';
+import SingleLoan from './components/student/loan/SingleLoan';
 import Profile from './components/shared-components/Profile';
 
 function App() {
@@ -42,7 +43,10 @@ function App() {
                 {/* groups page */}
                 <Route exact path={'/student/groups'} element={<Group />} />
                 <Route exact path={'/student/group/:groupId'} element={<SingleGroup />} />
+
+                {/* loan page */}
                 <Route exact path={'/student/my/loans'} element={<LoanPage />} />
+                <Route exact path={'/student/loan/:reference'} element={<SingleLoan />} />
 
               </Route>
               
