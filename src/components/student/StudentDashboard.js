@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import CountUp from 'react-countup';
+import LoanInterestChart from "../shared-components/charts/LoanInterestChart";
 
 const StudentDashboard = () => {
 
@@ -106,7 +107,7 @@ const StudentDashboard = () => {
                         <div className="dashboard_cards">
                         <h6>Loan/ Interest Ratio</h6>
                         <div className="dashboard_card_body">
-                            
+                            <LoanInterestChart />
                         </div>
                         </div>
                     </div>

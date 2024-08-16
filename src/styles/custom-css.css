@@ -67,7 +67,7 @@
 }
 
 .dashboard_cards{
-    height: 220px;
+    height: auto;
 }
 
 .dashboard_cards h6{
@@ -551,4 +551,133 @@
     position: absolute;
     bottom: 10%;
     right: 15px;
+}
+
+
+/* loan detail css */
+.loan_detail_holder{
+    height: auto;
+    width: 100%;
+    position: relative;
+    padding: 10px;
+}
+
+.loan_detail_holder p{
+    line-height: 1;
+}
+
+.loan_detail_holder p:nth-child(1){
+    font-size: 14px;
+    font-weight: 500;
+    color: #898989;
+}
+
+.loan_detail_holder p:nth-child(2){
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.loan_detail_holder .loan_badge_active{
+    position: absolute;
+    height: 20px;
+    width: auto;
+    text-align: center;
+    background-color: #7AED74;
+    color: #0C6A28;
+    border: 1px solid #38BC40;
+    line-height: 0;
+    right: 10px;
+    top: 0;
+    border-radius: 15px;
+}
+
+.loan_detail_holder .loan_badge_other{
+    position: absolute;
+    height: 20px;
+    width: auto;
+    text-align: center;
+    background-color: #e76e6a;
+    color: white;
+    border: 1px solid #ac2222;
+    line-height: 0;
+    right: 10px;
+    top: 0;
+    border-radius: 15px;
+}
+
+.loan_amount_info {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
+    gap: 10px; /* Space between columns */
+}
+
+.loan_amount_info .info_child {
+    height: 100px;
+    padding: 10px;
+}
+
+.loan_amount_info .info_child  p:nth-child(1){
+    font-size: 14px;
+    font-weight: 500;
+    color: #898989;
+    line-height: 1;
+}
+
+.loan_amount_info .info_child  p:nth-child(2){
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.guarantor_list{
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 5px;
+
+}
+
+.guarantor_list .guarantor{
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.guarantor_list .guarantor .profile_pic{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.guarantor_list .guarantor .profile_pic img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.guarantor_list .guarantor .g_child:nth-child(1){
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.guarantor_list .guarantor .g_child:nth-child(2){
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.guarantor_list .guarantor .g_child:nth-child(2) > p{
+    line-height: 0.5;
+    text-transform: capitalize;
 }
