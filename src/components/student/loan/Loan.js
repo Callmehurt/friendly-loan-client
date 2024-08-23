@@ -42,6 +42,7 @@ const LoanPage = () => {
         try{
 
             const response = await axiosPrivate.get('/loan/my/all/total/loans');
+            
             setLoanInterest(response.data);
         }catch(err){
             console.log('Error fetching loan data', err);
@@ -123,7 +124,7 @@ const LoanPage = () => {
             <div className="col-lg-6">
                 <div className="card">
                     <div className="card-body">
-                        <GuarantorRequest guarantorRequests={guarantorRequests}/>
+                        <GuarantorRequest guarantorRequests={guarantorRequests} fetchLoanGuarantorData={fetchLoanGuarantorData}/>
                     </div>
                 </div>
             </div>

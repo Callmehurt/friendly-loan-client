@@ -21,7 +21,6 @@ const Payment = ({refetch}) => {
       return null;
     }
 
-    console.log(payingAmount);
     const res = await axiosPrivate.post('payment/create-payment-intent', {
         amount: payingAmount
     })

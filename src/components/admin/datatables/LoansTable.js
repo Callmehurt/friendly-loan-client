@@ -3,33 +3,10 @@ import DataTable from 'react-data-table-component';
 import Fuse from 'fuse.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import { notifySuccess } from '../../../toast.notification';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
-
-    console.log('Guarantor Requests', guarantorRequests);
-
-    const axiosPrivate = useAxiosPrivate();
-
-
-    const manageGuarantorRequest = async (id, decision) => {
-
-        console.log('Managing Guarantor Request', id, decision);
-        
-        try{
-            const response = await axiosPrivate.post('/loan/manage/guarantor/request', {
-                id,
-                decision
-            });
-            if(response.status === 200){
-                notifySuccess(response?.data.message);
-                fetchLoanGuarantorData();
-            }
-        }catch(err){
-            console.log('Error managing guarantor request', err);
-        }
-    }
+const LoansTable = ({loanData}) => {
     
     //search text state
     const [searchText, setSearchText] = useState('');
@@ -39,65 +16,55 @@ const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
     };
 
     //search functionality
-    const fuse = new Fuse(guarantorRequests, { keys: ['loan.user.fullname', 'loan.reference', 'loan.group.name'] });
-    const filteredData = searchText ? fuse.search(searchText).map((result) => result.item) : guarantorRequests;
+    const fuse = new Fuse(loanData, { keys: ['reference', 'group.name'] });
+    const filteredData = searchText ? fuse.search(searchText).map((result) => result.item) : loanData;
 
     //datatable columns 
     const columns = [
         {
             name: 'Reference',
-            selector: row => row.loan.reference,
+            selector: row => row.reference,
             sortable: true,
         },
         {
             name: 'Group',
-            selector: row => row.loan.group.name,
+            selector: row => row.group.name,
             sortable: true,
         },
         {
-            name: 'Principle',
+            name: 'Principal',
             cell: row => (
-                <span>£ {row.loan.principalAmount}</span>
+                <span>£ {row.principalAmount}</span>
             ),
             sortable: true,
         },
         {
             name: 'Interest',
             cell: row => (
-                <span>{row.loan.interestRate}%</span>
+                <span>{row.interestRate}%</span>
             ),
             sortable: true,
         },
         {
-            name: 'Status',
+            name: 'Start/End Date',
             cell: row => (
-                row.status
+                row.status === 'active' || row.status === 'completed' ? (
+                    <>{moment(row.loanStartDate).format('LL')} / {moment(row.loanEndDate).format('LL')}</>
+                ): ''
             ),
             sortable: true,
         },
         {
             name: 'Requested By',
             cell: row => (
-                row.loan.user.fullname
+                row.user.fullname
             ),
             sortable: true,
         },
         {
             name: 'Action',
             cell: row => (
-                row.status === 'requested' ? (
-                    <>
-                    <button className='submit_button' style={{ backgroundColor: 'green', width: '32rem', marginRight: '8px' }} onClick={() => manageGuarantorRequest(row.id, 'approved')}>Approve</button>
-                    <button className='submit_button' style={{ backgroundColor: 'red', width: '25rem', marginRight: '8px' }} onClick={() => manageGuarantorRequest(row.id, 'rejected')}>Reject</button>
-                    <button className='submit_button' style={{ width: '20rem' }}>View</button>
-                    </>
-                ): 
-                (
-                    <>
-                    <button className='submit_button' style={{ backgroundColor: 'green', width: '32rem', marginRight: '8px' }}>{row.status}</button>
-                    <button className='submit_button' style={{ width: '25rem' }}>View</button>
-                    </>
-                )
+                <Link to={`/admin/loan/manage/${row.reference}`}><button className='submit_button mb-2'>View</button></Link>
             ),
             sortable: true,
         },
@@ -123,7 +90,6 @@ const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
     return (
         <div>
             <DataTable
-                title={'Loan Guarantor Requests'}
                 columns={columns}
                 data={filteredData}
                 pagination={true}
@@ -157,4 +123,4 @@ const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
     );
 };
 
-export default GuarantorRequest;
+export default LoansTable;

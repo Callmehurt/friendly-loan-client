@@ -7,6 +7,7 @@ import StudentNavbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import AdminNavbar from "../admin/AdminNavbar";
 
 const Header = () => {
 
@@ -127,7 +128,7 @@ const Header = () => {
                         <div className="container-fluid">
                             {
                                 currentAuthState.user.role.toLowerCase() === 'student' ? <StudentNavbar open={open} currentAuthState={currentAuthState} />
-                                : ''
+                                : <AdminNavbar open={open} currentAuthState={currentAuthState} />
                             }
                         </div>
                     </div>

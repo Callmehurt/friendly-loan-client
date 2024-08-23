@@ -19,12 +19,8 @@ import hero3 from '../../../images/hero3.png'
 const SingleGroup = () => {
 
     const {groupId} = useParams();
-    const dispatch = useDispatch();
 
     const [search, setSearch] = useState('');
-
-    //current auth
-    const currentAuth = useSelector((state) => state.authentication);
 
     //search result for contributors
     const [searchResult, setSearchResult] = useState([]);
@@ -236,31 +232,27 @@ const SingleGroup = () => {
                         </div>
                     </div>
                 </div>
-                {
-                    currentAuth.user.role === 'student' ? (
-                        <div className="col-6">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contribution</h6>
-                                    <div className="student_contribution">
-                                        {
-                                            currentMonthContribution ? (
-                                                <div className="p-2 m-2">
-                                                    <span>Contributed Amount: <strong className="text-success"><CountUp start={0} end={currentMonthContribution.amount} decimals={2} prefix="£ "/></strong></span><br/>
-                                                    <span>Contributed Date: <strong>{moment(currentMonthContribution.createdAt).format('LLL')}</strong></span>
-                                                </div>
-                                            ): (
-                                                <div>
-                                                    <Payment refetch={refetch}/>
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                </div>
+                <div className="col-6">
+                    <div className="card">
+                        <div className="card-body">
+                            <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contribution</h6>
+                            <div className="student_contribution">
+                                {
+                                    currentMonthContribution ? (
+                                        <div className="p-2 m-2">
+                                            <span>Contributed Amount: <strong className="text-success"><CountUp start={0} end={currentMonthContribution.amount} decimals={2} prefix="£ "/></strong></span><br/>
+                                            <span>Contributed Date: <strong>{moment(currentMonthContribution.createdAt).format('LLL')}</strong></span>
+                                        </div>
+                                    ): (
+                                        <div>
+                                            <Payment refetch={refetch}/>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
-                    ): null
-                }
+                    </div>
+                </div>
                 <div className="col-6">
                     <div className="card">
                         <div className="card-body">
@@ -275,7 +267,7 @@ const SingleGroup = () => {
                     {
                         Object.keys(groupStates?.groupMembers).length < 1 ? (
                             <>
-                                <h6>No Group Members</h6>
+                                <h1>No Group Members</h1>
                             </>
                         ):(
                             groupStates?.groupMembers.map((member) => {

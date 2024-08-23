@@ -2,8 +2,11 @@ import { useState } from "react";
 import { passwordChangeSchema } from "../../validation-schema";
 import { useFormik } from "formik";
 import { notifyError, notifySuccess } from "../../toast.notification";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const PasswordChangeForm = () => {
+
+    const axiosPrivate = useAxiosPrivate();
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -24,6 +27,14 @@ const PasswordChangeForm = () => {
             setIsLoading(true);
             try{
 
+                const res = await axiosPrivate.put('/user/change-password', {
+                    currentPassword: values.currentPassword,
+                    newPassword: values.newPassword,
+                });
+                if(res.status === 200){
+                    notifySuccess('Password updated successfully');
+                    action.resetForm();
+                }
                 
             }catch(err){
                 console.log(err);

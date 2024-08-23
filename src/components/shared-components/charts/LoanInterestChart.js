@@ -1,12 +1,12 @@
 import { AgCharts } from 'ag-charts-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const LoanInterestChart = ({ data }) => {
+const LoanInterestChart = ({ loan, interest }) => {
 
     const [options, setOptions] = useState({
         data: [
-            { asset: "Loan", amount: 60000 },
-            { asset: "Interest", amount: 22000 },
+            { asset: "Loan", amount: parseInt(loan) },
+            { asset: "Interest", amount: parseInt(interest) },
           ],
         series: [
           {
@@ -17,6 +17,23 @@ const LoanInterestChart = ({ data }) => {
           },
         ],
       });
+    
+    useEffect(() => {
+      setOptions({
+        data: [
+            { asset: "Loan", amount: parseFloat(loan) },
+            { asset: "Interest", amount: parseFloat(interest) },
+          ],
+        series: [
+          {
+            type: "pie",
+            angleKey: "amount",
+            legendItemKey: "asset",
+            fills: ['#50BF8A', '#F36056']
+          },
+        ],
+      });
+    }, [loan, interest]);  
 
     return (
         <>

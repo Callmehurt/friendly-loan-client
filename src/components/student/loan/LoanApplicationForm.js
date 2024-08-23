@@ -19,7 +19,6 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
         queryKey: ['userEnrolledGroups'],
         queryFn: async () => {
             const res = await axiosPrivate.get('/user/group/user/enrolled');
-            console.log(res);
             setUserGroups(await res?.data);
             return await res.data;
         }
@@ -61,7 +60,7 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
                 console.log(err);
                 setIsLoading(false);
                 notifyError(err.response.data.message);
-                if(err.response.status == 705){
+                if(err.response.status === 705){
                     fetchGroupMembers(values.groupId);
                     setShow(true);
                 }
@@ -73,9 +72,7 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
     const fetchGroupMembers = async (groupId) => {
         try{
 
-            const res = await axiosPrivate.get(`/user/group/${groupId}/members`);
-            console.log(res.data.members);
-            
+            const res = await axiosPrivate.get(`/user/group/${groupId}/members`);            
             setGroupMembers(res.data.members)
 
         }catch(err){
@@ -99,8 +96,6 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
             }else{
                 setInterest(0);
             }
-
-            console.log(res);
         }catch(err){
             console.log('error fetching interest', err);
             

@@ -1,5 +1,14 @@
 import * as Yup from "yup";
 
+export const userRegistrationSchema = Yup.object({
+    profile: Yup.mixed(),
+    fullname: Yup.string().required('Fullname is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+    address: Yup.string().required('Address is required'),
+    phone: Yup.string().required('Phone number is required'),   
+});
+
 export const groupSchema = Yup.object({
     thumbnail: Yup.mixed(),
     name: Yup.string().required('Group name is required'),

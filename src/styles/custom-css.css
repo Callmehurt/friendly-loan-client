@@ -18,6 +18,15 @@
     top: 30%;
 }
 
+.register_box{
+    width: 450px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 10%;
+    padding: 10px;
+}
 
 /* student dashboard css */
 
@@ -680,4 +689,42 @@
 .guarantor_list .guarantor .g_child:nth-child(2) > p{
     line-height: 0.5;
     text-transform: capitalize;
+}
+
+/* admin side loan detail css */
+
+.admin_loan_detail{
+    height: auto;
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.admin_loan_detail div p{
+    line-height: 1;
+}
+
+.loan_decision_btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.loan_approve_btn {
+    background-color: rgb(35, 213, 35);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px; /* Add some space between the buttons */
+    cursor: pointer;
+}
+
+.loan_reject_btn {
+    background-color: rgb(251, 100, 45);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
 }
