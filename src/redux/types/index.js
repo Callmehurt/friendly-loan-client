@@ -9,3 +9,7 @@ export const GroupActionTypes = {
     SET_CURRENT_GROUP: 'SET_CURRENT_GROUP',
     SET_GROUP_MEMBERS: 'SET_GROUP_MEMBERS' 
 }
+
+export const NotificationTypes = {
+    FETCH_NOTIFICATIONS: 'FETCH_NOTIFICATIONS',
+}

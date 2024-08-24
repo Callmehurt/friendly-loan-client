@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentGroup, setGroupMembers } from "../../../redux/actions/groupActions";
 import '../../../styles/member-card.css'
 import MemberCard from "../../shared-components/MemberCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MemberSearchModal from "../../shared-components/MemberSearchModal";
 import Payment from '../../shared-components/Payment';
 import CountUp from 'react-countup';
@@ -22,6 +22,8 @@ const SingleGroup = () => {
     const dispatch = useDispatch();
 
     const [search, setSearch] = useState('');
+    const [totalInterestCollection, setTotalInterestCollection] = useState(0);
+    const [deadlineSoonLoans, setDeadlineSoonLoans] = useState([]);
 
     //current auth
     const currentAuth = useSelector((state) => state.authentication);
@@ -133,6 +135,35 @@ const SingleGroup = () => {
         currentContributionRefetech();
     }, [groupStates.currentGroup, currentContributionRefetech])
 
+    const fetchGroupInterestCollection = useCallback( async () => {
+        try{
+            const res = await axiosPrivate.get(`/loan/fetch/group/interest/collection/${groupId}`);            
+            setTotalInterestCollection(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }, [axiosPrivate]);
+
+    const fetchGroupActiveLoanDeadlineSoons = useCallback( async () => {
+        try{
+            const res = await axiosPrivate.get(`/loan/group/active/loans/deadline/soon/${groupId}`);
+            console.log(res.data);
+            
+            setDeadlineSoonLoans(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }, [axiosPrivate])
+
+    useEffect(() => {
+        fetchGroupInterestCollection();
+
+        if(currentAuth.user.role === 'admin'){
+            fetchGroupActiveLoanDeadlineSoons();
+        }
+
+    }, [fetchGroupInterestCollection, fetchGroupActiveLoanDeadlineSoons])
+
     return (
         <>
         <MemberSearchModal show={show} setShow={setShow}/>
@@ -226,7 +257,7 @@ const SingleGroup = () => {
                         <div className="card-body">
                             <div className="card_wrapper d-flex justify-content-between">
                                 <div className="card_info">
-                                    <p><CountUp start={0} end={memberContributions} decimals={2} prefix="£ "/></p>
+                                    <p><CountUp start={0} end={totalInterestCollection} decimals={2} prefix="£ "/></p>
                                     <p>Interests</p>
                                 </div>
                                 <div className="card_icon">
@@ -259,16 +290,65 @@ const SingleGroup = () => {
                                 </div>
                             </div>
                         </div>
-                    ): null
-                }
-                <div className="col-6">
-                    <div className="card">
-                        <div className="card-body">
-                        <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Loan Information</h6>
-
+                    ): (
+                        <>
+                        <div className="col-12">
+                            <div className="card">
+                                <div className="card-body">
+                                <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Loan Information</h6>
+                                <div className="responsive">
+                                    <table className="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Reference</th>
+                                                <th>Group</th>
+                                                <th>Principal</th>
+                                                <th>Interest Rate</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Taken By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                deadlineSoonLoans.length > 0 ? (
+                                                    deadlineSoonLoans.map((loan) => {
+                                                        return (
+                                                            <tr key={loan.id}>
+                                                                <td>{loan.reference}</td>
+                                                                <td>{loan.group.name}</td>
+                                                                <td>{loan.principalAmount}</td>
+                                                                <td>{loan.interestRate}%</td>
+                                                                <td>{moment(loan.loanStartDate).format('LL')}</td>
+                                                                <td>{moment(loan.loanEndDate).format('LL')}</td>
+                                                                <td>{loan.user.fullname}</td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                ): (
+                                                    <tr>
+                                                        <td colSpan="7">No Loan Deadline Soon</td>
+                                                    </tr>
+                                                )
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div className="col-6">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-content">
+                                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contributed this Month</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </>
+                    )
+                }
                 <div className="col-12">
                     <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px', marginBottom: '15px' }}>Group Members</h6>
                     <div className="member_list_section">

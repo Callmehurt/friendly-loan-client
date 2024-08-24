@@ -172,7 +172,7 @@ const LoanDetailPage = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        loanDetail?.payments.length > 0 ? (
+                                        loanDetail?.payments?.length > 0 ? (
                                             loanDetail?.payments?.map((payment, index) => (
                                                 <tr key={index}>
                                                     <td>£ {payment.principalAmount}</td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useRefreshToken from '../hooks/userRefreshToken';
 import { useSelector } from 'react-redux';
@@ -6,9 +6,10 @@ import LoadingComponent from './LoadingComponent';
 
 const PersistLogin = () => {
 
+
     const location = useLocation();
     const navigate = useNavigate();
-
+    
     const refresh = useRefreshToken();
 
     const currentAuthState = useSelector((state) => state.authentication);

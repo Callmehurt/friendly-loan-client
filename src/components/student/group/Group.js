@@ -50,7 +50,7 @@ const Group = () => {
             {
                 isLoading ? (
                     Array.apply(null, { length: 6 }).map((e, i) => (
-                        <div className="col-lg-3" key={i}>
+                        <div className="col-lg-4" key={i}>
                             <GroupCardSkeleton/>
                         </div>
                       ))
