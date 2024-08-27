@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { notifyError, notifySuccess } from "../../../toast.notification";
 import { loanApplicationSchem } from "../../../validation-schema";
 import { useFormik } from "formik";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
 import GuarantorModal from "./GuarantorModal";
+import { useSelector } from "react-redux";
 
 const LoanApplicationForm = ({onLoanRequestSuccess}) => {
 
     const axiosPrivate = useAxiosPrivate();
 
+    const currentAuth = useSelector(state => state.authentication);
+
     const [isLoading, setIsLoading] = useState(false);
     const [userGroups, setUserGroups] = useState([]);
     const [groupMembers, setGroupMembers] = useState([]);
+    const [guarantors, setGuarantors] = useState([]);
 
     //fetch user enrolled groups
     useQuery({
@@ -72,8 +76,11 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
     const fetchGroupMembers = async (groupId) => {
         try{
 
-            const res = await axiosPrivate.get(`/user/group/${groupId}/members`);            
-            setGroupMembers(res.data.members)
+            const res = await axiosPrivate.get(`/user/group/${groupId}/members`);
+            
+            const members = res.data.members.filter(member => member.userId != currentAuth.user.id);
+            
+            setGroupMembers(members)
 
         }catch(err){
             console.log('failed to fetch group members', err);
@@ -119,6 +126,11 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
             }
         });        
     }
+
+    useEffect(() => {  
+        const guarantors = groupMembers.filter(member => guarantorIds.includes(member.userId));
+        setGuarantors(guarantors);
+    }, [guarantorIds]);
 
     return (
         <>
@@ -184,6 +196,15 @@ const LoanApplicationForm = ({onLoanRequestSuccess}) => {
                     autoComplete={'off'}
                     disabled
                 />
+            </div>
+            <div>
+                {
+                    guarantors.map(gr => {
+                        return (
+                            <span className="badge badge-primary m-1">{gr.user.fullname}</span>
+                        )
+                    })
+                }
             </div>
             {
                 isLoading ? <button className="submit_button" type="button">Processing..</button>

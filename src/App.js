@@ -47,6 +47,7 @@ function App() {
                 <Route exact path={'/admin/loan/manage/:reference'} element={<LoanDetailPage />} />
 
               </Route>
+              <Route exact path={'/admin/my/profile'} element={<Profile />} />
             </Route>
 
             {/* Protected routes for student role */}

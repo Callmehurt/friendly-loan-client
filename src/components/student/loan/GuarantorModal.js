@@ -52,9 +52,17 @@ const GuarantorModal = ({groupMembers, show, setShow, updateGuarantor, guarantor
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button className={'btn btn-sm btn-danger'} onClick={() => setShow(false)} style={{ fontSize: '14px' }}>
-                    Cancel
-                </button>
+                {
+                    guarantors.length > 0 ? (
+                        <button className={'btn btn-sm btn-success'} onClick={() => setShow(false)} style={{ fontSize: '14px' }}>
+                            Done
+                        </button>
+                    ): (
+                        <button className={'btn btn-sm btn-danger'} onClick={() => setShow(false)} style={{ fontSize: '14px' }}>
+                            Cancel
+                        </button>
+                    )
+                }
             </Modal.Footer>
         </Modal>
         </>

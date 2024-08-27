@@ -1,4 +1,4 @@
-import logo from '../images/logo-blue.png'
+import logo from '../images/shortLogo.png'
 
 const LoadingComponent = () => {
     return (

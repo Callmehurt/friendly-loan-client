@@ -35,6 +35,9 @@ const SingleGroup = () => {
 
     // document.title = "Friendly Loan || " + groupStates?.currentGroup?.name.toString()
 
+    console.log('state changes');
+    
+
     //axios private
     const axiosPrivate = useAxiosPrivate();
 
@@ -54,6 +57,7 @@ const SingleGroup = () => {
         queryKey: ['currentContribution'],
         queryFn: async () => {
             const res = await axiosPrivate.get(`/contribution/user/month/contribution/${groupId}`);
+            
             return await res.data;
         }
     })
@@ -146,10 +150,30 @@ const SingleGroup = () => {
 
     const fetchGroupActiveLoanDeadlineSoons = useCallback( async () => {
         try{
-            const res = await axiosPrivate.get(`/loan/group/active/loans/deadline/soon/${groupId}`);
-            console.log(res.data);
-            
+            const res = await axiosPrivate.get(`/loan/group/active/loans/deadline/soon/${groupId}`);            
             setDeadlineSoonLoans(res.data);
+        }catch(err){
+            console.log(err);
+        }
+    }, [axiosPrivate])
+
+
+
+    //member contribution status
+    const [memberContributionStatus, setMemberContributionStatus] = useState({
+        contributed: [],
+        notContributed: []
+    });
+
+
+    const fetchMemberContributionStatus = useCallback( async() => {
+        try{
+            const res = await axiosPrivate.get(`/contribution/group/members/contribution/status/${groupId}`);
+            setMemberContributionStatus({
+                contributed: res.data.contributed,
+                notContributed: res.data.notContributed
+            });
+            
         }catch(err){
             console.log(err);
         }
@@ -160,9 +184,10 @@ const SingleGroup = () => {
 
         if(currentAuth.user.role === 'admin'){
             fetchGroupActiveLoanDeadlineSoons();
+            fetchMemberContributionStatus();
         }
 
-    }, [fetchGroupInterestCollection, fetchGroupActiveLoanDeadlineSoons])
+    }, [fetchGroupInterestCollection, fetchGroupActiveLoanDeadlineSoons, fetchMemberContributionStatus])
 
     return (
         <>
@@ -341,7 +366,76 @@ const SingleGroup = () => {
                             <div className="card">
                                 <div className="card-body">
                                     <div className="card-content">
-                                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contributed this Month</h6>
+                                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Contributed Members</h6>
+                                    <div className="responsive">
+                                        <table className="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fullname</th>
+                                                    <th>Contact</th>
+                                                    <th>Contributed</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    memberContributionStatus?.contributed.length > 0 ? (
+                                                        memberContributionStatus?.contributed.map((member) => {
+                                                            return (
+                                                                <tr key={member.id}>
+                                                                    <td>{member.fullname}</td>
+                                                                    <td>{member.phone}</td>
+                                                                    <td>£ {member.amountContributed}</td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                    ): (
+                                                        <tr>
+                                                            <td colSpan="3">No Members</td>
+                                                        </tr>
+                                                    )
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="card-content">
+                                    <h6 style={{ fontSize: '17px', fontWeight: '600', marginLeft: '15px' }}>Not Contributed Members</h6>
+                                    <div className="responsive">
+                                        <table className="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fullname</th>
+                                                    <th>Contact</th>
+                                                    <th>Satus</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    memberContributionStatus?.notContributed.length > 0 ? (
+                                                        memberContributionStatus?.notContributed.map((member) => {
+                                                            return (
+                                                                <tr key={member.id}>
+                                                                    <td>{member.fullname}</td>
+                                                                    <td>{member.phone}</td>
+                                                                    <td><span className="badge badge-sm badge-danger">Due</span></td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                    ): (
+                                                        <tr>
+                                                            <td colSpan="3">No Members</td>
+                                                        </tr>
+                                                    )
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     </div>
                                 </div>
                             </div>

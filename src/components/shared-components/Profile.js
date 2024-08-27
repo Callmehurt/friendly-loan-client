@@ -20,15 +20,14 @@ const Profile = () => {
 
     const fetchUserGroups = useCallback( async () => {
 
-        const res = await axiosPrivate.get('/user/group/user/enrolled');
-        console.log(res);
-        
+        const res = await axiosPrivate.get('/user/group/user/enrolled');        
         setuserGroups(res?.data);
-
     }, [axiosPrivate])
 
     useEffect(() => {
-        fetchUserGroups();
+        if(currentAuthState?.user?.role === 'student'){
+            fetchUserGroups();
+        }
     }, [fetchUserGroups])
 
 
@@ -66,20 +65,24 @@ const Profile = () => {
             <div className="container-fluid">
                 <div style={{ marginTop: '25px' }}>
                     <div className="row">
-                        <div className="col-lg-8">
-                            <h6 style={{ fontSize: '17px', fontWeight: '600' }}>Associated Saving Groups</h6>
-                            <div className="row">
-                            {
-                                userGroups?.map((grp) => {
-                                    return (
-                                        <div className="col-lg-6" key={grp.id}>
-                                            <GroupCard group={grp} currentAuthState={currentAuthState}/>
-                                        </div>
-                                    ) 
-                                })
-                            }
+                        {
+                            currentAuthState?.user?.role === 'student' ? (
+                            <div className="col-lg-8">
+                                <h6 style={{ fontSize: '17px', fontWeight: '600' }}>Associated Saving Groups</h6>
+                                <div className="row">
+                                {
+                                    userGroups?.map((grp) => {
+                                        return (
+                                            <div className="col-lg-6" key={grp.id}>
+                                                <GroupCard group={grp} currentAuthState={currentAuthState}/>
+                                            </div>
+                                        ) 
+                                    })
+                                }
+                                </div>
                             </div>
-                        </div>
+                            ): ''
+                        }
                         <div className="col-lg-4" style={{ marginTop: '40px' }}>
                             <PasswordChangeForm/>
                         </div>
