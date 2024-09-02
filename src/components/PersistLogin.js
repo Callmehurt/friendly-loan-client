@@ -14,6 +14,9 @@ const PersistLogin = () => {
 
     const currentAuthState = useSelector((state) => state.authentication);
 
+    if(currentAuthState.user.emailVerified === false){
+        navigate(`/user/verify-email`); 
+    }
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {

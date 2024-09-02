@@ -4,7 +4,7 @@ import { axiosDefault } from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
 import { authenticateUser } from "../../redux/actions/authenticationActions";
 import { useNavigate, Link } from "react-router-dom";
-import { notifySuccess } from "../../toast.notification";
+import { notifySuccess, notifyError } from "../../toast.notification";
 import { ToastContainer } from "react-toastify";
 import logo from '../../images/logo-blue.png'
 
@@ -18,6 +18,10 @@ const LoginPage = () => {
     useEffect(() => {
 
         if(currentAuthState.isAuthenticated){
+            // if(currentAuthState.user.emailVerified === false){
+            //     console.log('email not verified'); 
+            // }else{
+            // }
             navigate(`/${currentAuthState.user.role.toLowerCase()}/dashboard`);
         }
 
@@ -49,6 +53,7 @@ const LoginPage = () => {
             setIsSubmiting(false);
         }).catch((err) => {
             setErrMsg(err.response.data.message);
+            notifyError(err.response.data.message);
             setIsSubmiting(false);
         })
     }

@@ -22,6 +22,7 @@ import AdminGroup from './components/admin/pages/Group';
 import AdminLoanPage from './components/admin/pages/Loan';
 import LoanDetailPage from './components/admin/pages/LoanDetailPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import EmailVerificationPage from './pages/auth/EmailVerificationPage';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
       <Route path={'/'} element={<Layout/>}>
 
           <Route path={'/user/register'} element={<RegisterPage/>}/>
+
+          {/* email verification */}
+          <Route path={'/user/verify-email'} element={<EmailVerificationPage/>}/>
 
           {/* Checks for authenticated user */}
           <Route element={<PersistLogin/>}>

@@ -124,7 +124,7 @@ const Header = () => {
                                                             </a>
                                                         )
                                                     )): (
-                                                        'No notifications'
+                                                        <p className="text-center">No notifications</p>
                                                     )
                                                 }    
 
