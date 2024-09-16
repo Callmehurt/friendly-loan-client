@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { notifySuccess } from '../../../toast.notification';
+import { Link } from 'react-router-dom';
 
 const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
 
@@ -13,10 +14,7 @@ const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
     const axiosPrivate = useAxiosPrivate();
 
 
-    const manageGuarantorRequest = async (id, decision) => {
-
-        console.log('Managing Guarantor Request', id, decision);
-        
+    const manageGuarantorRequest = async (id, decision) => {        
         try{
             const response = await axiosPrivate.post('/loan/manage/guarantor/request', {
                 id,
@@ -89,13 +87,13 @@ const GuarantorRequest = ({guarantorRequests, fetchLoanGuarantorData}) => {
                     <>
                     <button className='submit_button' style={{ backgroundColor: 'green', width: '32rem', marginRight: '8px' }} onClick={() => manageGuarantorRequest(row.id, 'approved')}>Approve</button>
                     <button className='submit_button' style={{ backgroundColor: 'red', width: '25rem', marginRight: '8px' }} onClick={() => manageGuarantorRequest(row.id, 'rejected')}>Reject</button>
-                    <button className='submit_button' style={{ width: '20rem' }}>View</button>
+                    <Link to={`/student/loan/${row.loan.reference}`} style={{ width: '20rem' }}><button className='submit_button'>View</button></Link>
                     </>
                 ): 
                 (
                     <>
                     <button className='submit_button' style={{ backgroundColor: 'green', width: '32rem', marginRight: '8px' }}>{row.status}</button>
-                    <button className='submit_button' style={{ width: '25rem' }}>View</button>
+                    <Link to={`/student/loan/${row.loan.reference}`} style={{ width: '20rem' }}><button className='submit_button'>View</button></Link>
                     </>
                 )
             ),
