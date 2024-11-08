@@ -37,7 +37,6 @@ function App() {
           {/* Checks for authenticated user */}
           <Route element={<PersistLogin/>}>
 
-            <Route path={'/'} element={<LoginPage/>}/>
             <Route path={'/user/login'} element={<LoginPage/>}/>
 
             {/* Protected routes for admin role */}
